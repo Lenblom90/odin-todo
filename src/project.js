@@ -20,7 +20,7 @@ const initializeProjects = () => {
     const getProjectByName = (name) => {
         return {
             name,
-            todoList: _projectList.find(project => project.name === name)
+            todoList: _projectList[name]
         };
     }
 
