@@ -17,8 +17,19 @@ const initializeProjects = () => {
         return project;
     }
 
-    const getProjects = () => {
+    const getProjectByName = (name) => {
+        return {
+            name,
+            todoList: _projectList.find(project => project.name === name)
+        };
+    }
+
+    const getProjectList = () => {
         return _projectList;
+    }
+
+    const editProject = (project) => {
+        _projectList[project.name] = project.todoList;
     }
 
     const deleteProject = (name) => {
@@ -27,7 +38,9 @@ const initializeProjects = () => {
 
     return {
         createProject,
-        getProjects,
+        getProjectByName,
+        getProjectList,
+        editProject,
         deleteProject,
     };    
 }

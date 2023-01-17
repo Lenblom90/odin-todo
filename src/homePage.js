@@ -6,7 +6,7 @@ export default function() {
     const content = document.getElementById('content');
 
     Projects.createProject("My First project", ['1','2','3']);
-    let projects = Projects.getProjects();
+    let projects = Projects.getProjectList();
 
     const ulNode = document.createElement('ul');
     for(let item in projects){
