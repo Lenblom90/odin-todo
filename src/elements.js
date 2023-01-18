@@ -1,4 +1,4 @@
-const createNav = (navItems) => {
+const createNav = (navItems, navFunctions) => {
 if(!navItems){
     navItems = [];
 }
@@ -7,22 +7,23 @@ const ulNode = document.createElement('ul');
 for (let i = 0; i < navItems.length; i++) {
     const liNode = document.createElement('li');
     liNode.textContent = navItems[i];
+    liNode.addEventListener('click', navFunctions[i]);
     ulNode.appendChild(liNode);
 }
 navNode.appendChild(ulNode);
-return navNode;
+document.body.firstChild.before(navNode);
 }
 
-const clearContent = () => {
-    let contentNode = document.getElementById('content');
-    if(contentNode){
-        while(contentNode.firstChild){
-            contentNode.removeChild(contentNode.firstChild);
+const clearChildrenById = (id) => {
+    let parentNode = document.getElementById(id);
+    if(parentNode){
+        while(parentNode.firstChild){
+            parentNode.removeChild(parentNode.firstChild);
         }
     }     
 }
 
 export {
         createNav,
-        clearContent
+        clearChildrenById
     }

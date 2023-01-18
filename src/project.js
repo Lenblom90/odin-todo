@@ -1,10 +1,14 @@
+import initializeTodos from './todo.js';
+
 const initializeProjects = () => {
     // projects
     const _projectList = [];
     
     const createProject = (name, todoList) => {
         if(!todoList){
-            todoList = [];
+            const Todos = initializeTodos();
+            todoList = Todos.getTodoList();
+            ;
         }
         const project = {name, todoList}
 
