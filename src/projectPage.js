@@ -20,7 +20,10 @@ export default function(project) {
             const item = project.todoList[todo];
             const liNode = document.createElement('li');
             const itemNode = document.createElement('div');
-            itemNode.textContent = item.title;
+            itemNode.textContent = item.dueDate + " " + item.title;
+            if(item.priority === "high"){
+                itemNode.classList.add("prio-high");
+            }
             
             const editButton = document.createElement('button');
             editButton.textContent = "Edit";

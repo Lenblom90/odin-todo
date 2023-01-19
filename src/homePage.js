@@ -3,7 +3,7 @@ import initializeProjects from './project.js';
 import { createTodo } from './todo.js';
 import ProjectPage from './projectPage.js';
 import { format } from 'date-fns';
-
+import './style.css';
 
 export default function() {
     const Projects = initializeProjects();
@@ -17,7 +17,10 @@ export default function() {
         clearChildrenById('content');
         const content = document.getElementById('content');
 
-        let projects = Projects.getProjectList();
+        const h1 = document.createElement('h1')
+        h1.textContent = "Taxe";
+        content.append(h1);
+
         const addButton = document.createElement('button');
         addButton.textContent = "Add Project"
         addButton.addEventListener('click', () => {
@@ -26,10 +29,11 @@ export default function() {
         content.appendChild(addButton);
     
         const ulNode = document.createElement('ul');
-    
+        let projects = Projects.getProjectList();    
         for(let item in projects){
             const liNode = document.createElement('li');
-            liNode.textContent = projects[item].name;
+            const itemNode = document.createElement('div');
+            itemNode.textContent = projects[item].name;
             const viewBtn = document.createElement('button');
             viewBtn.textContent = "View";
             viewBtn.addEventListener('click', (e) => {
@@ -38,17 +42,17 @@ export default function() {
                 let currentProject = Projects.getProjectByName(projectName);
                 ProjectPage(currentProject);
             })
-            liNode.appendChild(viewBtn);
+            itemNode.appendChild(viewBtn);
     
             const delBtn = document.createElement('button');
             delBtn.textContent = "Delete";
             delBtn.addEventListener('click', (e) => {
                 const projectName = e.target.previousSibling.previousSibling.textContent;
                 Projects.deleteProject(projectName);
-                e.target.parentElement.parentElement.removeChild(e.target.parentElement)
+                e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
             })
-            liNode.appendChild(delBtn);
-            
+            itemNode.appendChild(delBtn);
+            liNode.appendChild(itemNode);
             ulNode.appendChild(liNode)
         }
         content.appendChild(ulNode);
