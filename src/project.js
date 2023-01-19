@@ -1,31 +1,24 @@
-import initializeTodos from './todo.js';
-
 const initializeProjects = () => {
-    // projects
-    const _projectList = [];
-    
-    const createProject = (name, todoList) => {
-        if(!todoList){
-            const Todos = initializeTodos();
-            todoList = Todos.getTodoList();
-            ;
-        }
-        const project = {name, todoList}
+    const _projectList = window.localStorage.projects ? JSON.parse(window.localStorage.projects) : [];
 
-        if(_projectList[project.name]){
-            throw console.error("This project already exists!");
+    const createProject = (name, todoList) => {
+        if(_projectList.find(x => x.name === name)){
+            console.warn("This project already exists!");
+            return _projectList.find(x => x.name === name);
         }
-        
-        _projectList[project.name] = todoList;
-        
+
+        if(!todoList){
+            todoList = [];
+        }
+        const project = {name, todoList};        
+        _projectList.push(project);
+
+        window.localStorage.setItem('projects',JSON.stringify(_projectList));
         return project;
     }
 
     const getProjectByName = (name) => {
-        return {
-            name,
-            todoList: _projectList[name]
-        };
+        return _projectList.find(x => x.name === name);
     }
 
     const getProjectList = () => {
@@ -33,11 +26,14 @@ const initializeProjects = () => {
     }
 
     const editProject = (project) => {
-        _projectList[project.name] = project.todoList;
+        const index = _projectList.findIndex(x => x.name === project.name);
+        _projectList[index].todoList = project.todoList;
+        window.localStorage.setItem('projects',JSON.stringify(_projectList));
     }
 
     const deleteProject = (name) => {
-        delete _projectList[name];
+        _projectList.splice(_projectList.findIndex(x => x.name === name),1);
+        window.localStorage.setItem('projects',JSON.stringify(_projectList));
     }
 
     return {
