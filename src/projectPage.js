@@ -2,9 +2,8 @@ import { clearChildrenById } from './elements.js'
 import { createTodo, deleteTodo, editTodo } from './todo.js';
 
 export default function(project) {
-    clearChildrenById('content');
-
     const showContent = () => {    
+        clearChildrenById('content');
         const content = document.getElementById('content');
         const h1 = document.createElement('h1');
         h1.textContent = project.name;
@@ -20,23 +19,25 @@ export default function(project) {
         for(let todo in project.todoList){
             const item = project.todoList[todo];
             const liNode = document.createElement('li');
-            liNode.textContent = item.title;
-    
+            const itemNode = document.createElement('div');
+            itemNode.textContent = item.title;
+            
             const editButton = document.createElement('button');
             editButton.textContent = "Edit";
             editButton.addEventListener('click', () => {
                 createEditForm(project, item);
             });
-            liNode.appendChild(editButton);
+            itemNode.appendChild(editButton);
     
             const delButton = document.createElement('button');
             delButton.textContent = "Delete";
             delButton.addEventListener('click', (e) => {
                 deleteTodo(project, item.id);
-                e.target.parentElement.parentElement.removeChild(e.target.parentElement);
+                e.target.parentElement.parentElement.parentElement.removeChild(e.target.parentElement.parentElement);
             })
-            liNode.appendChild(delButton);
-    
+            itemNode.appendChild(delButton);
+            
+            liNode.appendChild(itemNode);
             ulNode.appendChild(liNode);        
         }
         content.appendChild(ulNode);
@@ -81,7 +82,7 @@ export default function(project) {
                 }    
                 project = editTodo(project, todo);            
             }
-            clearChildrenById('todoForm')
+            showContent();
         })
         todoForm.appendChild(saveButton);
         content.appendChild(todoForm);    
